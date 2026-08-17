@@ -8,11 +8,7 @@ import {
   notInFutureValidator,
 } from '../../../shared/utils/custom-validators';
 
-/**
- * Builds the Customer Edit/Create form group.
- * Kept out of the component so the validation rules are unit-testable in
- * isolation and the component stays focused on orchestration.
- */
+
 export function buildCustomerForm(fb: FormBuilder) {
   return fb.nonNullable.group(
     {
@@ -51,7 +47,6 @@ export function buildCustomerForm(fb: FormBuilder) {
       CommercialRegistrationNumber: [''],
     },
     {
-      // Business rule: an ERP contact needs at least one way to be reached.
       validators: [atLeastOneOf(['Mobile', 'Phone', 'Email'])],
     }
   );
@@ -59,7 +54,6 @@ export function buildCustomerForm(fb: FormBuilder) {
 
 export type CustomerForm = ReturnType<typeof buildCustomerForm>;
 
-/** Maps an API Customer into the flat shape the form expects. */
 export function toFormValue(customer: Customer) {
   return {
     Id: customer.Id ?? 0,
@@ -98,7 +92,6 @@ export function toFormValue(customer: Customer) {
   };
 }
 
-/** Maps the form's flat value back into the API payload shape expected by SaveCustomerWithContactPerson. */
 export function toApiPayload(formValue: ReturnType<typeof toFormValue>): Customer {
   const country = COUNTRY_OPTIONS.find((option) => option.value === formValue.CountryId)?.label ?? '';
   const region = REGION_OPTIONS.find((option) => option.value === formValue.RegionId)?.label ?? '';
