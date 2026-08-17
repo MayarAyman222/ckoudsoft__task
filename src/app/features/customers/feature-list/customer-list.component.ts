@@ -40,9 +40,7 @@ type ReportKey = 'contacts' | 'customer' | 'account-follow-up';
     RowActionsMenuComponent,
     CustomerFormComponent,
   ],
-  // The store is scoped to this component subtree so the list's query state
-  // (search/filters/paging) resets cleanly whenever the user navigates away
-  // and back, instead of leaking as global app state.
+  
   providers: [CustomerStore, MessageService],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './customer-list.component.html',
@@ -54,10 +52,7 @@ export class CustomerListComponent {
   private readonly messageService = inject(MessageService);
   private readonly customerService = inject(CustomerService);
 
-  /** Hard cap on rows fetched for a single export, so "Export Excel" on a
-   *  100k+ row filtered result can't freeze the tab or ship a multi-hundred-
-   *  MB file - it fetches up to this many matching rows in one request and
-   *  tells the user if the result was truncated. */
+  
   private static readonly EXPORT_ROW_LIMIT = 10_000;
   protected readonly exporting = signal(false);
 
@@ -86,24 +81,17 @@ export class CustomerListComponent {
     () => this.store.pageIndex() >= this.store.totalPages() - 1
   );
 
-  /** Highlights the clicked report tile in the "Reports" quick card. */
   protected selectReport(report: ReportKey): void {
     this.selectedReport.set(report);
   }
 
-  // ---- Create/Edit/View dialog state --------------------------------------
   protected readonly dialogVisible = signal(false);
   protected readonly dialogCustomerId = signal<number | null>(null);
   protected readonly dialogCustomer = signal<Customer | null>(null);
   protected readonly dialogViewMode = signal(false);
   protected readonly dialogTitle = signal('Add Customer');
 
-  /**
-   * Fired by p-table whenever paging or sorting changes.
-   * `lazy` mode means the table never holds more than one page of rows in
-   * memory client-side — the store is the single source of truth and this
-   * handler simply forwards the request.
-   */
+  
   protected onLazyLoad(event: TableLazyLoadEvent): void {
     const pageSize = event.rows ?? this.store.pageSize();
     const pageIndex = pageSize ? Math.floor((event.first ?? 0) / pageSize) : 0;
@@ -196,9 +184,7 @@ export class CustomerListComponent {
   protected delete(customer: Customer): void {
     const label = customer.CommercialName || customer.Name || `#${customer.Id}`;
     this.confirmDialog.confirmDelete(label, () => {
-      // The task scope only requires Read + Edit against the staging API,
-      // so deletion is wired up at the UI/UX level (confirmation, optimistic
-      // toast) without a destructive network call, matching the mock API spec.
+     
       this.messageService.add({
         severity: 'success',
         summary: 'Deleted',
@@ -212,10 +198,7 @@ export class CustomerListComponent {
     if (this.exporting()) return;
     this.exporting.set(true);
 
-    // Export respects the current search/filters/sort but ignores paging,
-    // so the user gets "everything I'm currently looking at" in one file -
-    // fetched via one request (capped at EXPORT_ROW_LIMIT) rather than the
-    // table's normal one-page-at-a-time loading.
+   
     const params = this.store.queryParams();
     this.customerService
       .getCustomers({ ...params, pageIndex: 0, pageSize: CustomerListComponent.EXPORT_ROW_LIMIT })
@@ -242,7 +225,6 @@ export class CustomerListComponent {
         },
         error: () => {
           this.exporting.set(false);
-          // The error interceptor already surfaces a toast for the failed request.
         },
       });
   }
