@@ -21,65 +21,28 @@ interface LocalCustomerSave {
   created: boolean;
 }
 
-/**
- * Signals hold the *state*; RxJS owns the *process* of turning state changes
- * into a single, cancellable HTTP request.
- *
- * Why split it this way:
- * - Every UI control (search box, column filters, paginator, sort header)
- *   just writes to a signal. Signals give cheap, synchronous, fine-grained
- *   change detection for the template (`loading()`, `customers()`, `total()`)
- *   without manual subscriptions in components.
- * - Fetching is inherently asynchronous and needs operators signals don't
- *   provide out of the box: `debounceTime` so free-text search doesn't fire
- *   a request per keystroke, and `switchMap` so a fast paginator click
- *   cancels the previous in-flight request instead of racing it (critical
- *   once you're proxying 100k+ rows - a stale response arriving after a
- *   newer one must never overwrite the UI).
- * - `toObservable` bridges the query-params signal into that RxJS pipeline;
- *   `toSignal` bridges the pipeline's output back into signals for the
- *   template. This keeps exactly one subscription alive for the store's
- *   whole lifetime (cleaned up automatically via `takeUntilDestroyed`)
- *   instead of components manually subscribing/unsubscribing.
- */
+
 @Injectable()
 export class CustomerStore {
   private readonly customerService = inject(CustomerService);
 
-  /**
-   * Local saves are a client-side cache that patches the merged list view
-   * right after a save, since the staging API's `ReadAllCRMClients` endpoint
-   * doesn't reliably reflect a just-written row on the very next read (no
-   * read-by-id, occasional caching upstream). Without this, an edit could
-   * flash back to its old value for a moment after `reload()`.
-   *
-   * That cache used to live only in the signal above, which meant it was
-   * wiped on every full page refresh (new app bootstrap = new store
-   * instance = empty signal), so a save that hadn't "caught up" on the
-   * server yet would visually disappear the moment the user reloaded the
-   * page. Persisting it to `localStorage` keeps it alive across refreshes,
-   * the same as it survives in-memory across reloads within a session.
-   */
+  
   private static readonly LOCAL_SAVES_STORAGE_KEY = 'crm.customer.localSaves.v1';
 
-  // ---- Writable state -----------------------------------------------------
   private readonly _queryParams = signal<CustomerQueryParams>({
     ...DEFAULT_QUERY_PARAMS,
   });
   private readonly _error = signal<string | null>(null);
-  /** Bumped to force-refetch the current page (e.g. after a save). */
   private readonly refresh$ = new Subject<void>();
   private readonly localSaves = signal<LocalCustomerSave[]>(
     CustomerStore.readPersistedLocalSaves()
   );
 
-  // ---- Public read-only state ---------------------------------------------
   readonly queryParams = this._queryParams.asReadonly();
   readonly error = this._error.asReadonly();
 
   private readonly queryParams$ = toObservable(this._queryParams);
 
-  /** Monotonically increasing tag so an explicit reload() always bypasses distinctUntilChanged. */
   private reloadNonce = 0;
   private localSaveNonce = 0;
 
@@ -107,7 +70,6 @@ export class CustomerStore {
     { initialValue: { items: [] as Customer[], total: 0 } }
   );
 
-  /** True while a request for the *current* query params is in flight. */
   readonly loading = signal(false);
 
   readonly customers = computed(() => this.mergeLocalSaves(this.result().items));
@@ -120,8 +82,7 @@ export class CustomerStore {
   readonly isEmpty = computed(() => !this.loading() && this.customers().length === 0);
 
   constructor() {
-    // Derive a simple loading flag from param changes -> result changes,
-    // without needing a second network round-trip just to know we're busy.
+    
     merge(this.queryParams$, this.refresh$)
       .pipe(debounceTime(0), takeUntilDestroyed())
       .subscribe(() => this.loading.set(true));
@@ -131,7 +92,6 @@ export class CustomerStore {
       .subscribe(() => this.loading.set(false));
   }
 
-  // ---- Intents (called from the component) --------------------------------
 
   search(text: string): void {
     this.patch({ text, pageIndex: 0 });
@@ -164,7 +124,6 @@ export class CustomerStore {
   }
 
   reload(): void {
-    // Force a refetch even though the params object is unchanged (e.g. after a save).
     this.refresh$.next();
   }
 
@@ -197,7 +156,6 @@ export class CustomerStore {
       const parsed = JSON.parse(raw);
       return Array.isArray(parsed) ? (parsed as LocalCustomerSave[]) : [];
     } catch {
-      // Corrupt/unavailable storage shouldn't break the app - just start empty.
       return [];
     }
   }
@@ -207,8 +165,7 @@ export class CustomerStore {
     try {
       localStorage.setItem(CustomerStore.LOCAL_SAVES_STORAGE_KEY, JSON.stringify(saves));
     } catch {
-      // Storage full/blocked (private browsing, quota) - fail silently and
-      // keep working from the in-memory signal for the rest of the session.
+      
     }
   }
 
