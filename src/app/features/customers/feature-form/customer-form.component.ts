@@ -34,13 +34,7 @@ import {
   toFormValue,
 } from './customer-form.factory';
 
-/**
- * Embeddable Create/Edit/View form for a Customer.
- * Deliberately has no knowledge of routing or dialogs — the host (a p-dialog
- * in CustomerListComponent, in this app) decides how it's presented. This
- * keeps the form reusable as a full page, a modal, or a drawer without any
- * change to this component.
- */
+
 @Component({
   selector: 'app-customer-form',
   standalone: true,
@@ -61,7 +55,6 @@ export class CustomerFormComponent implements OnChanges {
   private readonly customerService = inject(CustomerService);
   private readonly messageService = inject(MessageService);
 
-  /** Null/undefined = create mode. */
   @Input() customerId: number | null = null;
   @Input() customer: Customer | null = null;
   @Input() viewMode = false;
@@ -96,8 +89,7 @@ export class CustomerFormComponent implements OnChanges {
 
   private loadCustomer(id: number): void {
     this.loading.set(true);
-    // The staging API only exposes ReadAllCRMClients (no read-by-id), so we
-    // fetch a single-row page filtered by Id and hydrate the form from it.
+   
     this.customerService
       .getCustomers({
         text: '',
@@ -157,7 +149,6 @@ export class CustomerFormComponent implements OnChanges {
           this.saved.emit(savedCustomer);
         },
         error: () => {
-          // The error interceptor already surfaces a toast; nothing else to do here.
         },
       });
   }
