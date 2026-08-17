@@ -5,9 +5,7 @@ a technical assessment for the Senior Front-End Developer (Angular) role.
 
 > **AI disclosure:** This project was scaffolded and implemented with the help
 > of an AI coding assistant (Claude), as explicitly permitted by the task
-> brief. All architectural decisions, trade-offs, and code below were reviewed
-> for correctness against the task requirements.
-
+> brief. 
 ## Stack
 
 - **Angular 17** (standalone components, no NgModules)
