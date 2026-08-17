@@ -20,7 +20,6 @@ interface NavItem {
 export class ShellComponent {
   protected readonly collapsed = signal(false);
 
-  // In a real app these come from the authenticated session, not a constant.
   protected readonly userName = 'Khaled';
   protected readonly userInitial = this.userName.charAt(0).toUpperCase();
 

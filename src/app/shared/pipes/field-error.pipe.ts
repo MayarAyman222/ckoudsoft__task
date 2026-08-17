@@ -1,11 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ValidationErrors } from '@angular/forms';
 
-/**
- * Translates a control's raw `ValidationErrors` object into a single
- * human-readable message, so templates stay declarative:
- *   {{ form.get('Email')?.errors | fieldError }}
- */
+
 @Pipe({ name: 'fieldError', standalone: true, pure: true })
 export class FieldErrorPipe implements PipeTransform {
   private static readonly MESSAGES: Record<string, string> = {

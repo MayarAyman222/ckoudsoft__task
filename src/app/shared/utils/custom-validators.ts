@@ -1,9 +1,5 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
-/**
- * Egyptian-style mobile numbers (also accepts a leading +country code),
- * e.g. +201056988475 or 01056988475.
- */
 export function mobilePatternValidator(): ValidatorFn {
   const pattern = /^(\+?\d{1,3})?0?\d{10}$/;
   return (control: AbstractControl): ValidationErrors | null => {
@@ -13,7 +9,6 @@ export function mobilePatternValidator(): ValidatorFn {
   };
 }
 
-/** Rejects a birth date that is in the future. */
 export function notInFutureValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     if (!control.value) return null;
@@ -22,7 +17,6 @@ export function notInFutureValidator(): ValidatorFn {
   };
 }
 
-/** Alphanumeric registration-style codes (VAT / commercial registration / SWIFT). */
 export function alphaNumericValidator(minLength = 3): ValidatorFn {
   const pattern = new RegExp(`^[A-Za-z0-9-]{${minLength},}$`);
   return (control: AbstractControl): ValidationErrors | null => {
@@ -32,7 +26,6 @@ export function alphaNumericValidator(minLength = 3): ValidatorFn {
   };
 }
 
-/** Cross-field validator: at least one of the given control names must be filled in. */
 export function atLeastOneOf(controlNames: string[]): ValidatorFn {
   return (group: AbstractControl): ValidationErrors | null => {
     const hasValue = controlNames.some((name) => {

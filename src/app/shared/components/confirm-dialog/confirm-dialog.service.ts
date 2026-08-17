@@ -1,10 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
 
-/**
- * Thin wrapper over PrimeNG's ConfirmationService so feature code depends on
- * a small app-owned API (`confirmDelete`) instead of the library directly.
- */
+
 @Injectable({ providedIn: 'root' })
 export class ConfirmDialogService {
   private readonly confirmationService = inject(ConfirmationService);
