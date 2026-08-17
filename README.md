@@ -20,7 +20,7 @@ a technical assessment for the Senior Front-End Developer (Angular) role.
 
 ```bash
 npm install
-npm start        # http://localhost:4200
+ng s -o       # http://localhost:4200
 npm run build    # production build -> dist/crm-customer-app
 ```
 

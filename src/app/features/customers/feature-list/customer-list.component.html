@@ -27,9 +27,10 @@
     <button
       pButton
       type="button"
-      icon="pi pi-file-excel"
-      label="Export Excel"
+      [icon]="exporting() ? 'pi pi-spin pi-spinner' : 'pi pi-file-excel'"
+      [label]="exporting() ? 'Exporting…' : 'Export Excel'"
       class="p-button-outlined outlined-btn"
+      [disabled]="exporting()"
       (click)="exportExcel()"
     ></button>
   </div>

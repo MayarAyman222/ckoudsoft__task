@@ -7,9 +7,11 @@ import { ToastModule } from 'primeng/toast';
 import { SkeletonModule } from 'primeng/skeleton';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
+import * as XLSX from 'xlsx';
 
 import { ConfirmDialogService } from '../../../shared/components/confirm-dialog/confirm-dialog.service';
 import { CustomerStore } from '../data-access/customer.store';
+import { CustomerService } from '../../../core/services/customer.service';
 import { CustomerToolbarComponent } from './components/customer-toolbar/customer-toolbar.component';
 import { ColumnFilterGridComponent } from './components/column-filter-grid/column-filter-grid.component';
 import {
@@ -50,6 +52,14 @@ export class CustomerListComponent {
   protected readonly store = inject(CustomerStore);
   private readonly confirmDialog = inject(ConfirmDialogService);
   private readonly messageService = inject(MessageService);
+  private readonly customerService = inject(CustomerService);
+
+  /** Hard cap on rows fetched for a single export, so "Export Excel" on a
+   *  100k+ row filtered result can't freeze the tab or ship a multi-hundred-
+   *  MB file - it fetches up to this many matching rows in one request and
+   *  tells the user if the result was truncated. */
+  private static readonly EXPORT_ROW_LIMIT = 10_000;
+  protected readonly exporting = signal(false);
 
   protected readonly pageSizeOptions = [5, 10, 20];
   protected readonly filterExpanded = signal(false);
@@ -199,10 +209,74 @@ export class CustomerListComponent {
   }
 
   protected exportExcel(): void {
-    this.messageService.add({
-      severity: 'info',
-      summary: 'Export started',
-      detail: 'Your Excel export will download shortly.',
-    });
+    if (this.exporting()) return;
+    this.exporting.set(true);
+
+    // Export respects the current search/filters/sort but ignores paging,
+    // so the user gets "everything I'm currently looking at" in one file -
+    // fetched via one request (capped at EXPORT_ROW_LIMIT) rather than the
+    // table's normal one-page-at-a-time loading.
+    const params = this.store.queryParams();
+    this.customerService
+      .getCustomers({ ...params, pageIndex: 0, pageSize: CustomerListComponent.EXPORT_ROW_LIMIT })
+      .subscribe({
+        next: (result) => {
+          this.exporting.set(false);
+          if (!result.items.length) {
+            this.messageService.add({
+              severity: 'warn',
+              summary: 'Nothing to export',
+              detail: 'No customers match the current search/filters.',
+            });
+            return;
+          }
+          this.downloadExcel(result.items);
+          const truncated = result.total > result.items.length;
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Export ready',
+            detail: truncated
+              ? `Downloaded the first ${result.items.length.toLocaleString()} of ${result.total.toLocaleString()} matching rows.`
+              : `Downloaded ${result.items.length.toLocaleString()} row(s).`,
+          });
+        },
+        error: () => {
+          this.exporting.set(false);
+          // The error interceptor already surfaces a toast for the failed request.
+        },
+      });
+  }
+
+  private downloadExcel(customers: Customer[]): void {
+    const rows = customers.map((c) => ({
+      ID: c.Id ?? '',
+      Code: c.Code ?? '',
+      Name: c.CommercialName ?? c.Name ?? '',
+      Email: c.Email ?? '',
+      Mobile: c.Mobile ?? '',
+      'Client Type': c.ClientType ?? '',
+      'Account Manager': c.AccountManager ?? '',
+      City: c.City ?? '',
+      Country: c.Country ?? '',
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(rows);
+    worksheet['!cols'] = [
+      { wch: 8 },
+      { wch: 12 },
+      { wch: 24 },
+      { wch: 28 },
+      { wch: 16 },
+      { wch: 12 },
+      { wch: 24 },
+      { wch: 16 },
+      { wch: 16 },
+    ];
+
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Customers');
+
+    const timestamp = new Date().toISOString().slice(0, 10);
+    XLSX.writeFile(workbook, `customers-${timestamp}.xlsx`);
   }
 }
