@@ -21,12 +21,7 @@ export const COUNTRY_NAME_OPTIONS: LookupOption[] = [
   { label: 'UAE', value: 'UAE' },
 ];
 
-// NOTE: No lookup endpoint for Region/City/Main Account was provided by the
-// task (only ReadAllCRMClients + SaveCustomerWithContactPerson were in
-// scope), so - same approach already used for COUNTRY_OPTIONS - these are a
-// small representative placeholder list, kept here in one place so swapping
-// in a real "GetRegions"/"GetCities"/"GetMainAccounts" lookup call later is
-// a one-line change with zero impact on the form/template.
+
 export const REGION_OPTIONS: LookupOption[] = [
   { label: 'Cairo', value: 1 },
   { label: 'Giza', value: 2 },

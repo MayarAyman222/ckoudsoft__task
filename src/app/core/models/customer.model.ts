@@ -1,9 +1,4 @@
-/**
- * Customer as returned by ReadAllCRMClients.
- * The staging API is loosely typed (many optional/nullable fields), so almost
- * everything is optional here; the UI defensively falls back with the
- * `?? '-'` pattern rather than assuming a field is always present.
- */
+
 export interface Customer {
   Id?: number;
   Code?: string;
@@ -61,7 +56,6 @@ export interface Customer {
   [key: string]: unknown;
 }
 
-/** Flat shape the Reactive Form binds to (kept close to the API's own field names). */
 export interface CustomerFormValue {
   Id: number;
   Code: string;

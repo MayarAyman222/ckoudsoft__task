@@ -3,11 +3,7 @@ import { inject } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { catchError, throwError } from 'rxjs';
 
-/**
- * Centralizes HTTP error handling so feature code never has to know about
- * toast services or status-code branching - it just subscribes and reacts to
- * a rejected observable if it needs to.
- */
+
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   const messageService = inject(MessageService);
 
