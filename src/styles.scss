@@ -1,0 +1,42 @@
+/* Tailwind */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global theme variables */
+@import './styles/theme';
+
+/* PrimeNG theme + core + icons */
+@import 'primeng/resources/themes/lara-light-blue/theme.css';
+@import 'primeng/resources/primeng.css';
+@import 'primeicons/primeicons.css';
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #0f172a;
+  -webkit-font-smoothing: antialiased;
+  background: #f4f7fb;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.p-datatable .p-datatable-thead > tr > th {
+  background: #eaf5ff;
+  color: #1f66f2;
+  font-size: 0.64rem;
+  text-transform: uppercase;
+  letter-spacing: 0;
+}
+
+.p-component {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.p-toast {
+  z-index: 9999;
+}

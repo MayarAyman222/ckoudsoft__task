@@ -1,0 +1,463 @@
+:host {
+  display: block;
+}
+
+.customers-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.08);
+  padding: 14px 13px 8px;
+
+  &__header {
+    margin-bottom: 14px;
+
+    h1 {
+      color: #0f172a;
+      font-size: 0.98rem;
+      font-weight: 800;
+      line-height: 1.1;
+      margin: 0;
+    }
+  }
+
+  &__error {
+    align-items: center;
+    background: #fff6f6;
+    border: 1px solid #fecaca;
+    border-radius: 6px;
+    color: #b91c1c;
+    display: flex;
+    font-size: 0.72rem;
+    gap: 7px;
+    margin-bottom: 10px;
+    padding: 8px 10px;
+  }
+}
+
+.customers-card__toolbar-actions {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-bottom: 12px;
+}
+
+.customers-card__toolbar-actions .p-button {
+  border-radius: 5px;
+  font-size: 0.62rem;
+  font-weight: 700;
+  min-height: 24px;
+  padding: 0 9px;
+}
+
+:host ::ng-deep .customers-card__toolbar-actions .p-button .p-button-icon {
+  font-size: 0.62rem;
+}
+
+:host ::ng-deep .customers-card__toolbar-actions .p-button .p-button-label {
+  line-height: 1;
+}
+
+.primary-btn {
+  background: var(--primary) !important;
+  border: 1px solid var(--primary) !important;
+  color: #fff !important;
+}
+
+.outlined-btn {
+  background: #fff !important;
+  border: 1px solid #ccd8e8 !important;
+  color: #0f172a !important;
+}
+
+:host ::ng-deep .outlined-btn .p-button-icon {
+  color: #16a34a;
+}
+
+.text-center {
+  text-align: center;
+}
+
+:host ::ng-deep .customers-table .p-datatable-wrapper {
+  border: 1px solid #e2eaf5;
+  border-radius: 5px 5px 0 0;
+  overflow-x: auto;
+}
+
+:host ::ng-deep .customers-table .p-datatable-table {
+  min-width: 820px;
+  table-layout: fixed;
+}
+
+:host ::ng-deep .customers-table .p-datatable-thead > tr > th {
+  background: #eaf5ff;
+  border: 0;
+  border-bottom: 1px solid #dcecff;
+  color: #1f66f2;
+  font-size: 0.58rem;
+  font-weight: 800;
+  height: 25px;
+  letter-spacing: 0;
+  line-height: 1;
+  padding: 6px 8px;
+  text-transform: none;
+  white-space: nowrap;
+}
+
+:host ::ng-deep .customers-table .p-datatable-tbody > tr > td {
+  background: #fff;
+  border: 0;
+  border-bottom: 1px solid #edf1f6;
+  color: #0f172a;
+  font-size: 0.56rem;
+  font-weight: 600;
+  height: 24px;
+  line-height: 1.15;
+  padding: 5px 8px;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+:host ::ng-deep .customers-table .p-datatable-tbody > tr:hover > td {
+  background: #fbfdff;
+}
+
+:host ::ng-deep .truncate-cell {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.row-action-trigger {
+  align-items: center;
+  background: var(--primary);
+  border: 0;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  gap: 4px;
+  height: 19px;
+  justify-content: center;
+  min-width: 38px;
+  padding: 0 6px;
+}
+
+.row-action-trigger i {
+  font-size: 0.55rem;
+  line-height: 1;
+}
+
+.row-action-trigger:hover {
+  background: var(--primary-600);
+}
+
+.empty-state {
+  color: #94a3b8;
+  padding: 38px 0;
+  text-align: center;
+
+  i {
+    display: block;
+    font-size: 1.4rem;
+    margin-bottom: 7px;
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+.customer-table-footer {
+  align-items: center;
+  background: #eef8ff;
+  border: 1px solid #dcecff;
+  border-radius: 0 0 5px 5px;
+  border-top: 0;
+  color: #475569;
+  display: flex;
+  gap: 7px;
+  min-height: 37px;
+  padding: 6px 7px;
+  width: 100%;
+}
+
+.customer-table-footer__report,
+.customer-table-footer__items {
+  font-size: 0.58rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.customer-table-footer__size {
+  appearance: none;
+  background: #fff
+    linear-gradient(45deg, transparent 50%, #64748b 50%) calc(100% - 10px) 50% / 5px 5px no-repeat;
+  border: 1px solid #cfd8e5;
+  border-radius: 5px;
+  color: #334155;
+  cursor: pointer;
+  font-size: 0.62rem;
+  font-weight: 700;
+  height: 25px;
+  min-width: 39px;
+  padding: 0 18px 0 8px;
+}
+
+.customer-table-footer__pages {
+  align-items: center;
+  display: flex;
+  gap: 4px;
+  margin-left: auto;
+}
+
+.page-btn,
+.paginator-refresh {
+  align-items: center;
+  background: #fff;
+  border: 1px solid #9fb0c4;
+  border-radius: 4px;
+  color: #0f172a;
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 0.56rem;
+  font-weight: 700;
+  height: 20px;
+  justify-content: center;
+  min-width: 21px;
+  padding: 0 7px;
+  white-space: nowrap;
+}
+
+.page-btn:hover:not(:disabled),
+.paginator-refresh:hover {
+  background: #f8fafc;
+}
+
+.page-btn:disabled {
+  border-color: #d5dde8;
+  color: #a6b2c2;
+  cursor: default;
+}
+
+.page-btn--active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+}
+
+.page-btn--text {
+  padding-inline: 8px;
+}
+
+.paginator-refresh {
+  border: 0;
+  color: #64748b;
+  min-width: 20px;
+  padding: 0;
+}
+
+.paginator-refresh i {
+  font-size: 0.64rem;
+}
+
+.quick-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.quick-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.08);
+  padding: 14px 13px;
+
+  h3 {
+    color: #334155;
+    font-size: 0.86rem;
+    font-weight: 800;
+    line-height: 1.1;
+    margin: 0 0 2px;
+  }
+
+  &__subtitle {
+    color: #64748b;
+    font-size: 0.56rem;
+    font-weight: 600;
+    margin: 0 0 16px;
+  }
+
+  &__grid {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(3, minmax(190px, 255px));
+  }
+}
+
+.quick-tile {
+  align-items: flex-start;
+  border: 1px solid #e7edf5;
+  border-radius: 6px;
+  box-shadow: 0 2px 5px rgba(15, 23, 42, 0.06);
+  cursor: pointer;
+  display: flex;
+  gap: 10px;
+  min-height: 62px;
+  padding: 12px 10px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+
+  &:hover {
+    border-color: #cbdaf0;
+  }
+
+  i {
+    align-items: center;
+    background: #eef6ff;
+    border-radius: 5px;
+    color: #64748b;
+    display: inline-flex;
+    flex: 0 0 27px;
+    font-size: 0.9rem;
+    height: 27px;
+    justify-content: center;
+    margin-top: 1px;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+
+  strong {
+    color: #0f172a;
+    display: block;
+    font-size: 0.58rem;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-top: 3px;
+  }
+
+  span {
+    color: #64748b;
+    display: block;
+    font-size: 0.54rem;
+    font-weight: 500;
+    line-height: 1.35;
+    margin-top: 10px;
+  }
+
+  &--active {
+    background: #f5f9ff;
+    border-color: var(--primary);
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.14);
+
+    i {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    strong {
+      color: var(--primary);
+    }
+  }
+}
+
+.quick-sections__toggle {
+  align-items: center;
+  align-self: center;
+  background: #f8fbff;
+  border: 1px solid #cbdaf0;
+  border-radius: 50%;
+  color: var(--primary);
+  cursor: pointer;
+  display: inline-flex;
+  height: 20px;
+  justify-content: center;
+  margin: -5px 0 -3px;
+  padding: 0;
+  position: relative;
+  width: 20px;
+  z-index: 2;
+}
+
+.quick-sections__toggle i {
+  font-size: 0.58rem;
+}
+
+.quick-sections__toggle--collapsed {
+  display: flex;
+  margin: 8px auto 0;
+}
+
+:host ::ng-deep .row-actions-panel {
+  border: 1px solid #d9e1ec;
+  border-radius: 5px;
+  box-shadow: 0 5px 15px rgba(15, 23, 42, 0.18);
+}
+
+:host ::ng-deep .row-actions-panel .p-overlaypanel-content {
+  padding: 0;
+}
+
+:host ::ng-deep .customer-dialog {
+  border-radius: 6px;
+  max-height: calc(100dvh - 48px);
+  overflow: hidden;
+}
+
+:host ::ng-deep .customer-dialog .p-dialog-header {
+  border-bottom: 1px solid #e7edf5;
+  padding: 10px 12px 8px;
+}
+
+:host ::ng-deep .customer-dialog .p-dialog-title {
+  color: #0f172a;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+:host ::ng-deep .customer-dialog .p-dialog-header-close {
+  color: #0f172a;
+  height: 22px;
+  width: 22px;
+}
+
+:host ::ng-deep .customer-dialog .p-dialog-content {
+  overflow: visible;
+  padding: 10px 12px 0;
+}
+
+:host ::ng-deep .p-dialog-mask.p-component-overlay {
+  background: rgba(15, 23, 42, 0.56);
+}
+
+@media (max-width: 940px) {
+  :host ::ng-deep .customers-table .p-datatable-table {
+    min-width: 820px;
+  }
+
+  .customer-table-footer {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .customer-table-footer__pages {
+    margin-left: 0;
+    width: 100%;
+  }
+}
+
+@media (max-width: 720px) {
+  .customers-card {
+    padding: 12px 10px 8px;
+  }
+
+  .quick-card__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .customer-table-footer__pages {
+    overflow-x: auto;
+    padding-bottom: 2px;
+  }
+}

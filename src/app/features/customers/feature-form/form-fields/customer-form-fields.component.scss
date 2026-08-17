@@ -1,0 +1,71 @@
+.form-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  margin-bottom: 16px;
+
+  &--warn {
+    background: #fef9c3;
+    color: #a16207;
+    border: 1px solid #fde68a;
+  }
+}
+
+.form-section {
+  border: none;
+  padding: 0;
+  margin: 0 0 22px;
+
+  legend {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #64748b;
+    padding: 0 0 10px;
+    border-bottom: 1px solid #eef1f6;
+    width: 100%;
+    margin-bottom: 16px;
+  }
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 14px 18px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  &--wide {
+    grid-column: span 2;
+  }
+
+  label {
+    font-size: 0.76rem;
+    font-weight: 600;
+    color: #475569;
+  }
+
+  input,
+  ::ng-deep .p-dropdown,
+  ::ng-deep .p-calendar {
+    width: 100%;
+  }
+
+  ::ng-deep .p-inputtext {
+    font-size: 0.85rem;
+    padding: 8px 10px;
+  }
+}
+
+.field-error {
+  color: #dc2626;
+  font-size: 0.72rem;
+}

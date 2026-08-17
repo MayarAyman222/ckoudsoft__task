@@ -1,0 +1,290 @@
+<p-toast />
+<p-confirmDialog />
+
+<div class="customers-card">
+  <div class="customers-card__header">
+    <h1>Customers</h1>
+  </div>
+
+  <app-customer-toolbar
+    [searchTerm]="store.queryParams().text"
+    [filterExpanded]="filterExpanded()"
+    (searchChange)="onSearchChange($event)"
+    (filterToggle)="filterExpanded.set(!filterExpanded())"
+    (fieldsChange)="onSearchFieldsChange($event)"
+  />
+
+  @if (filterExpanded()) {
+    <app-column-filter-grid
+      [activeFilters]="store.queryParams().columnFilters"
+      (filterChange)="onFilterChange($event)"
+      (clearAll)="store.clearFilters()"
+    />
+  }
+
+  <div class="customers-card__toolbar-actions">
+    <button pButton type="button" icon="pi pi-plus" label="Add Customer" (click)="addCustomer()" class="primary-btn"></button>
+    <button
+      pButton
+      type="button"
+      icon="pi pi-file-excel"
+      label="Export Excel"
+      class="p-button-outlined outlined-btn"
+      (click)="exportExcel()"
+    ></button>
+  </div>
+
+  @if (store.error(); as errorMessage) {
+    <div class="customers-card__error">
+      <i class="pi pi-exclamation-circle"></i>
+      <span>{{ errorMessage }}</span>
+      <button pButton type="button" label="Retry" class="p-button-text p-button-sm" (click)="store.reload()"></button>
+    </div>
+  }
+
+  <p-table
+    [value]="store.customers()"
+    [lazy]="true"
+    [paginator]="false"
+    [rows]="store.pageSize()"
+    [totalRecords]="store.total()"
+    [loading]="store.loading()"
+    [first]="store.pageIndex() * store.pageSize()"
+    (onLazyLoad)="onLazyLoad($event)"
+    dataKey="Id"
+    responsiveLayout="scroll"
+    styleClass="p-datatable-sm customers-table"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="Id" style="width: 44px">ID</th>
+        <th pSortableColumn="Code" style="width: 52px">Code</th>
+        <th pSortableColumn="CommercialName" style="width: 80px">Name</th>
+        <th style="width: 170px">Email</th>
+        <th style="width: 105px">Mobile</th>
+        <th style="width: 82px">Client Type</th>
+        <th style="width: 135px">Account Manager</th>
+        <th style="width: 55px">City</th>
+        <th style="width: 60px">Country</th>
+        <th style="width: 50px" class="text-center">Actions</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-customer>
+      <tr>
+        <td>{{ customer.Id != null && customer.Id > 0 ? customer.Id : '-' }}</td>
+        <td>{{ customer.Code || '-' }}</td>
+        <td class="font-medium">{{ customer.CommercialName || customer.Name || '-' }}</td>
+        <td class="truncate-cell">{{ customer.Email || '-' }}</td>
+        <td>{{ customer.Mobile || '-' }}</td>
+        <td>{{ customer.ClientType || '-' }}</td>
+        <td class="truncate-cell">{{ customer.AccountManager || '-' }}</td>
+        <td>{{ customer.City || '-' }}</td>
+        <td>{{ customer.Country || '-' }}</td>
+        <td class="text-center">
+          <button
+            type="button"
+            class="row-action-trigger"
+            (click)="rowMenu.toggle($event, customer)"
+          >
+            <i class="pi pi-cog"></i>
+            <i class="pi pi-chevron-down"></i>
+          </button>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="loadingbody">
+      @for (row of [1, 2, 3, 4, 5]; track row) {
+        <tr>
+          <td colspan="10"><p-skeleton height="1.4rem" /></td>
+        </tr>
+      }
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="10" class="empty-state">
+          <i class="pi pi-users"></i>
+          <p>No customers match your search or filters.</p>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+  <app-row-actions-menu #rowMenu (action)="onRowAction($event)" />
+
+  <div class="customer-table-footer">
+    <span class="customer-table-footer__report">
+      Showing {{ reportFirst() }} to {{ reportLast() }} of {{ store.total() }} Results
+    </span>
+
+    <select
+      class="customer-table-footer__size"
+      [value]="store.pageSize()"
+      (change)="onPageSizeChange($any($event.target).value)"
+      aria-label="Rows per page"
+    >
+      @for (size of pageSizeOptions; track size) {
+        <option [value]="size">{{ size }}</option>
+      }
+    </select>
+    <span class="customer-table-footer__items">items per page</span>
+
+    <div class="customer-table-footer__pages" aria-label="Pagination">
+      <button type="button" class="page-btn page-btn--text" [disabled]="isFirstPage()" (click)="goToPage(0)">
+        &laquo; First
+      </button>
+      <button
+        type="button"
+        class="page-btn page-btn--text"
+        [disabled]="isFirstPage()"
+        (click)="goToPage(store.pageIndex() - 1)"
+      >
+        &lsaquo; Prev
+      </button>
+      @for (page of visiblePageNumbers(); track page) {
+        <button
+          type="button"
+          class="page-btn"
+          [class.page-btn--active]="page === store.pageIndex() + 1"
+          (click)="goToPage(page - 1)"
+        >
+          {{ page }}
+        </button>
+      }
+      <button
+        type="button"
+        class="page-btn page-btn--text"
+        [disabled]="isLastPage()"
+        (click)="goToPage(store.pageIndex() + 1)"
+      >
+        Next &rsaquo;
+      </button>
+      <button
+        type="button"
+        class="page-btn page-btn--text"
+        [disabled]="isLastPage()"
+        (click)="goToPage(store.totalPages() - 1)"
+      >
+        Last &raquo;
+      </button>
+    </div>
+
+    <button type="button" class="paginator-refresh" (click)="store.reload()" aria-label="Refresh customers">
+      <i class="pi pi-refresh"></i>
+    </button>
+  </div>
+</div>
+
+@if (quickSectionsExpanded()) {
+  <div class="quick-sections">
+    <div class="quick-card">
+      <h3>Actions</h3>
+      <p class="quick-card__subtitle">Manage customers related actions and operations.</p>
+      <div class="quick-card__grid">
+        <div class="quick-tile">
+          <i class="pi pi-sort-alt"></i>
+          <div>
+            <strong>Collective Reassign</strong>
+            <span>Use a template to reassign customers in bulk.</span>
+          </div>
+        </div>
+        <div class="quick-tile">
+          <i class="pi pi-refresh"></i>
+          <div>
+            <strong>Customer Follow Up</strong>
+            <span>Use a template to follow up customers.</span>
+          </div>
+        </div>
+        <div class="quick-tile">
+          <i class="pi pi-upload"></i>
+          <div>
+            <strong>Upload Bulk</strong>
+            <span>Use a template to upload bulk customer data.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button
+      type="button"
+      class="quick-sections__toggle"
+      (click)="quickSectionsExpanded.set(false)"
+      aria-label="Collapse"
+    >
+      <i class="pi pi-chevron-down"></i>
+    </button>
+
+    <div class="quick-card">
+      <h3>Reports</h3>
+      <p class="quick-card__subtitle">Manage customers related reports.</p>
+      <div class="quick-card__grid">
+        <div
+          class="quick-tile"
+          [class.quick-tile--active]="selectedReport() === 'contacts'"
+          (click)="selectReport('contacts')"
+        >
+          <i class="pi pi-phone"></i>
+          <div>
+            <strong>Contacts Report</strong>
+            <span>Report For Contacts.</span>
+          </div>
+        </div>
+        <div
+          class="quick-tile"
+          [class.quick-tile--active]="selectedReport() === 'customer'"
+          (click)="selectReport('customer')"
+        >
+          <i class="pi pi-chart-bar"></i>
+          <div>
+            <strong>Customer Report</strong>
+            <span>Report For Customers.</span>
+          </div>
+        </div>
+        <div
+          class="quick-tile"
+          [class.quick-tile--active]="selectedReport() === 'account-follow-up'"
+          (click)="selectReport('account-follow-up')"
+        >
+          <i class="pi pi-headphones"></i>
+          <div>
+            <strong>Account Follow Up Report</strong>
+            <span>Report For Accounts Follow Up.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+} @else {
+  <button
+    type="button"
+    class="quick-sections__toggle quick-sections__toggle--collapsed"
+    (click)="quickSectionsExpanded.set(true)"
+    aria-label="Expand"
+  >
+    <i class="pi pi-chevron-up"></i>
+  </button>
+}
+
+<p-dialog
+  [visible]="dialogVisible()"
+  (visibleChange)="dialogVisible.set($event)"
+  [header]="dialogTitle()"
+  [modal]="true"
+  [style]="{ width: '82vw', maxWidth: '980px' }"
+  [breakpoints]="{ '760px': 'calc(100vw - 16px)' }"
+  [draggable]="false"
+  [resizable]="false"
+  styleClass="customer-dialog"
+>
+  @if (dialogVisible()) {
+    <app-customer-form
+      [customerId]="dialogCustomerId()"
+      [customer]="dialogCustomer()"
+      [viewMode]="dialogViewMode()"
+      (saved)="onFormSaved($event)"
+      (cancelled)="onFormCancelled()"
+    />
+  }
+</p-dialog>

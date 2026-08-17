@@ -1,0 +1,22 @@
+:root {
+  /* Palette */
+  --color-bg: #f5f7fb;
+  --card-bg: #ffffff;
+  --primary: #2f6bff;
+  --primary-600: #2258df;
+  --muted: #94a3b8;
+  --text: #0f172a;
+  --border: #dfe6f0;
+
+  /* Spacing / radii */
+  --radius-md: 8px;
+  --radius-sm: 5px;
+
+  /* UI sizes */
+  --toolbar-height: 26px;
+}
+
+/* Utility helper for centered empty states */
+.empty-state {
+  color: var(--muted);
+}

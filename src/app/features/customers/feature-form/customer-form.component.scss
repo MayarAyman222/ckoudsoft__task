@@ -1,0 +1,187 @@
+:host {
+  display: block;
+}
+
+.form-loading {
+  align-items: center;
+  color: #64748b;
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  padding: 60px 0;
+}
+
+form {
+  max-height: calc(100dvh - 145px);
+  overflow-y: auto;
+  padding-right: 7px;
+  scrollbar-color: #94a3b8 transparent;
+  scrollbar-width: thin;
+}
+
+form::-webkit-scrollbar {
+  width: 7px;
+}
+
+form::-webkit-scrollbar-thumb {
+  background: #94a3b8;
+  border-radius: 999px;
+}
+
+.form-banner {
+  align-items: center;
+  border-radius: 5px;
+  display: flex;
+  font-size: 0.66rem;
+  gap: 7px;
+  margin-bottom: 10px;
+  padding: 8px 10px;
+
+  &--warn {
+    background: #fef9c3;
+    border: 1px solid #fde68a;
+    color: #a16207;
+  }
+}
+
+.form-grid {
+  display: grid;
+  gap: 8px 9px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  padding-bottom: 6px;
+
+  @media (max-width: 900px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (max-width: 560px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+
+  label {
+    color: #334155;
+    font-size: 0.58rem;
+    font-weight: 600;
+    line-height: 1.1;
+  }
+
+  .required {
+    color: #ef4444;
+    font-weight: 800;
+  }
+
+  label::first-letter {
+    letter-spacing: 0;
+  }
+
+  input,
+  ::ng-deep .p-dropdown,
+  ::ng-deep .p-calendar {
+    width: 100%;
+  }
+
+  ::ng-deep .p-inputtext,
+  ::ng-deep .p-dropdown,
+  ::ng-deep .p-calendar .p-inputtext {
+    border-color: #cdd7e4;
+    border-radius: 4px;
+    color: #0f172a;
+    font-size: 0.6rem;
+    font-weight: 600;
+    height: 22px;
+  }
+
+  ::ng-deep .p-inputtext {
+    padding: 4px 7px;
+  }
+
+  ::ng-deep .p-dropdown {
+    align-items: center;
+    display: flex;
+  }
+
+  ::ng-deep .p-dropdown .p-dropdown-label {
+    color: #0f172a;
+    font-size: 0.6rem;
+    font-weight: 600;
+    line-height: 20px;
+    padding: 0 7px;
+  }
+
+  ::ng-deep .p-dropdown .p-dropdown-label.p-placeholder {
+    color: #64748b;
+  }
+
+  ::ng-deep .p-dropdown .p-dropdown-trigger {
+    color: #94a3b8;
+    width: 22px;
+  }
+
+  ::ng-deep .p-calendar {
+    display: flex;
+  }
+
+  ::ng-deep .p-calendar .p-datepicker-trigger {
+    background: transparent;
+    border: 0;
+    color: #334155;
+    height: 22px;
+    padding: 0;
+    width: 24px;
+  }
+
+  ::ng-deep .p-calendar .p-datepicker-trigger .p-button-icon {
+    font-size: 0.62rem;
+  }
+}
+
+.field-error {
+  color: #dc2626;
+  font-size: 0.52rem;
+  line-height: 1.1;
+}
+
+.form-actions {
+  align-items: center;
+  background: #fff;
+  bottom: 0;
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 5px;
+  padding: 8px 0 0;
+  position: sticky;
+  z-index: 2;
+}
+
+.form-actions .p-button {
+  border-radius: 5px;
+  font-size: 0.6rem;
+  font-weight: 700;
+  height: 24px;
+  min-width: 44px;
+  padding: 0 10px;
+}
+
+:host ::ng-deep .form-actions .p-button .p-button-label {
+  line-height: 1;
+}
+
+:host ::ng-deep .form-actions .p-button-outlined {
+  background: #7cc6ff !important;
+  border-color: #65b6f3 !important;
+  color: #0f172a !important;
+}
+
+:host ::ng-deep .form-actions .p-button-success {
+  background: #22c55e !important;
+  border-color: #22c55e !important;
+  color: #0f172a !important;
+}

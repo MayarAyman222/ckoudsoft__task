@@ -1,0 +1,256 @@
+@if (loading()) {
+  <div class="form-loading">
+    <i class="pi pi-spin pi-spinner"></i>
+    <span>Loading customer...</span>
+  </div>
+} @else {
+  <form [formGroup]="form" (ngSubmit)="save()">
+    @if (form.errors?.['atLeastOneRequired'] && form.touched) {
+      <div class="form-banner form-banner--warn">
+        <i class="pi pi-exclamation-triangle"></i>
+        Provide at least one of Mobile, Phone or Email so the customer can be reached.
+      </div>
+    }
+
+    <div class="form-grid">
+      <div class="field">
+        <label for="Code">Code <span class="required">*</span></label>
+        <input pInputText id="Code" formControlName="Code" />
+        @if (form.get('Code')?.invalid && form.get('Code')?.touched) {
+          <small class="field-error">{{ form.get('Code')?.errors | fieldError }}</small>
+        }
+      </div>
+
+      <div class="field">
+        <label for="Company">Company</label>
+        <p-dropdown
+          inputId="Company"
+          [options]="[]"
+          placeholder="Select Company"
+          appendTo="body"
+        ></p-dropdown>
+      </div>
+
+      <div class="field">
+        <label for="CommercialName">Commercial Name <span class="required">*</span></label>
+        <input pInputText id="CommercialName" formControlName="CommercialName" />
+        @if (form.get('CommercialName')?.invalid && form.get('CommercialName')?.touched) {
+          <small class="field-error">{{ form.get('CommercialName')?.errors | fieldError }}</small>
+        }
+      </div>
+
+      <div class="field">
+        <label for="LegalArabicName">Legal Arabic Name</label>
+        <input pInputText id="LegalArabicName" formControlName="LegalArabicName" />
+      </div>
+
+      <div class="field">
+        <label for="LegalEnglishName">Legal English Name</label>
+        <input pInputText id="LegalEnglishName" formControlName="LegalEnglishName" />
+      </div>
+
+      <div class="field">
+        <label for="LegalFrenchName">Legal French Name</label>
+        <input pInputText id="LegalFrenchName" formControlName="LegalFrenchName" />
+      </div>
+
+      <div class="field">
+        <label for="JobTitle">Job Title</label>
+        <input pInputText id="JobTitle" formControlName="JobTitle" />
+      </div>
+
+      <div class="field">
+        <label for="BirthDate">Birth Date</label>
+        <p-calendar
+          inputId="BirthDate"
+          formControlName="BirthDate"
+          dateFormat="dd/mm/yy"
+          placeholder="dd/mm/yyyy"
+          [showIcon]="true"
+          appendTo="body"
+        ></p-calendar>
+        @if (form.get('BirthDate')?.invalid && form.get('BirthDate')?.touched) {
+          <small class="field-error">{{ form.get('BirthDate')?.errors | fieldError }}</small>
+        }
+      </div>
+
+      <div class="field">
+        <label for="Email">Email</label>
+        <input pInputText id="Email" formControlName="Email" />
+        @if (form.get('Email')?.invalid && form.get('Email')?.touched) {
+          <small class="field-error">{{ form.get('Email')?.errors | fieldError }}</small>
+        }
+      </div>
+
+      <div class="field">
+        <label for="Fax">Fax</label>
+        <input pInputText id="Fax" formControlName="Fax" />
+      </div>
+
+      <div class="field">
+        <label for="NationalID">National ID</label>
+        <input pInputText id="NationalID" formControlName="NationalID" />
+        @if (form.get('NationalID')?.invalid && form.get('NationalID')?.touched) {
+          <small class="field-error">{{ form.get('NationalID')?.errors | fieldError }}</small>
+        }
+      </div>
+
+      <div class="field">
+        <label for="Website">Website</label>
+        <input pInputText id="Website" formControlName="Website" />
+      </div>
+
+      <div class="field">
+        <label for="PassportNo">Passport Number</label>
+        <input pInputText id="PassportNo" formControlName="PassportNo" />
+      </div>
+
+      <div class="field">
+        <label for="Address">Address</label>
+        <input pInputText id="Address" formControlName="Address" />
+      </div>
+
+      <div class="field">
+        <label for="DistrictAR">District Arabic</label>
+        <input pInputText id="DistrictAR" formControlName="DistrictAR" />
+      </div>
+
+      <div class="field">
+        <label for="DistrictEN">District English</label>
+        <input pInputText id="DistrictEN" formControlName="DistrictEN" />
+      </div>
+
+      <div class="field">
+        <label for="StreetAR">Street Arabic</label>
+        <input pInputText id="StreetAR" formControlName="StreetAR" />
+      </div>
+
+      <div class="field">
+        <label for="StreetEN">Street English</label>
+        <input pInputText id="StreetEN" formControlName="StreetEN" />
+      </div>
+
+      <div class="field">
+        <label for="RegionId">Region</label>
+        <p-dropdown
+          inputId="RegionId"
+          formControlName="RegionId"
+          [options]="[]"
+          placeholder="Select Region"
+          appendTo="body"
+        ></p-dropdown>
+      </div>
+
+      <div class="field">
+        <label for="CountryId">Country <span class="required">*</span></label>
+        <p-dropdown
+          inputId="CountryId"
+          formControlName="CountryId"
+          [options]="countryOptions"
+          placeholder="Select Country"
+          [showClear]="true"
+          appendTo="body"
+        ></p-dropdown>
+        @if (form.get('CountryId')?.invalid && form.get('CountryId')?.touched) {
+          <small class="field-error">{{ form.get('CountryId')?.errors | fieldError }}</small>
+        }
+      </div>
+
+      <div class="field">
+        <label for="CityId">City</label>
+        <p-dropdown
+          inputId="CityId"
+          formControlName="CityId"
+          [options]="[]"
+          placeholder="Select City"
+          [showClear]="true"
+          appendTo="body"
+        ></p-dropdown>
+      </div>
+
+      <div class="field">
+        <label for="MainClientId">Main Account</label>
+        <p-dropdown
+          inputId="MainClientId"
+          formControlName="MainClientId"
+          [options]="[]"
+          placeholder="Select Main Account"
+          appendTo="body"
+        ></p-dropdown>
+      </div>
+
+      <div class="field">
+        <label for="Mobile">Mobile</label>
+        <input pInputText id="Mobile" formControlName="Mobile" />
+        @if (form.get('Mobile')?.invalid && form.get('Mobile')?.touched) {
+          <small class="field-error">{{ form.get('Mobile')?.errors | fieldError }}</small>
+        }
+      </div>
+
+      <div class="field">
+        <label for="Phone">Phone</label>
+        <input pInputText id="Phone" formControlName="Phone" />
+      </div>
+
+      <div class="field">
+        <label for="BuildingNumber">Building Number</label>
+        <input pInputText id="BuildingNumber" formControlName="BuildingNumber" />
+      </div>
+
+      <div class="field">
+        <label for="PostalCode">Postal Code</label>
+        <input pInputText id="PostalCode" formControlName="PostalCode" />
+      </div>
+
+      <div class="field">
+        <label for="VATRegistrationNumber">VAT Registration Number</label>
+        <input pInputText id="VATRegistrationNumber" formControlName="VATRegistrationNumber" />
+        @if (form.get('VATRegistrationNumber')?.invalid && form.get('VATRegistrationNumber')?.touched) {
+          <small class="field-error">{{ form.get('VATRegistrationNumber')?.errors | fieldError }}</small>
+        }
+      </div>
+
+      <div class="field">
+        <label for="GroupVATRegistrationNumber">Group VAT Registration Number</label>
+        <input pInputText id="GroupVATRegistrationNumber" formControlName="GroupVATRegistrationNumber" />
+      </div>
+
+      <div class="field">
+        <label for="AccountNo">Account Number</label>
+        <input pInputText id="AccountNo" formControlName="AccountNo" />
+      </div>
+
+      <div class="field">
+        <label for="SwiftCode">Swift Number</label>
+        <input pInputText id="SwiftCode" formControlName="SwiftCode" />
+        @if (form.get('SwiftCode')?.invalid && form.get('SwiftCode')?.touched) {
+          <small class="field-error">{{ form.get('SwiftCode')?.errors | fieldError }}</small>
+        }
+      </div>
+
+      <div class="field">
+        <label for="PayeeBank">Payee Bank</label>
+        <input pInputText id="PayeeBank" formControlName="PayeeBank" />
+      </div>
+
+      <div class="field">
+        <label for="CommercialRegistrationNumber">Commercial Registration Number</label>
+        <input pInputText id="CommercialRegistrationNumber" formControlName="CommercialRegistrationNumber" />
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button pButton type="button" label="Cancel" class="p-button-outlined p-button-secondary" (click)="cancel()"></button>
+      @if (!viewMode) {
+        <button
+          pButton
+          type="submit"
+          [label]="saving() ? 'Saving...' : 'Save'"
+          [icon]="saving() ? 'pi pi-spin pi-spinner' : ''"
+          class="p-button-success"
+          [disabled]="saving()"
+        ></button>
+      }
+    </div>
+  </form>
+}
