@@ -8,14 +8,7 @@ import { COUNTRY_OPTIONS } from '../../../../core/constants/lookups.constant';
 import { FieldErrorPipe } from '../../../../shared/pipes/field-error.pipe';
 import { CustomerForm } from '../customer-form.factory';
 
-/**
- * Pure presentation component: renders the Customer field grid against a
- * FormGroup it is handed. Has zero knowledge of routing, HTTP, or dialogs -
- * it is reused as-is by the full-page CustomerFormComponent (deep-linkable
- * /customers/:id/edit) and by CustomerEditDialogComponent (the modal flow
- * that matches the assessment's screenshots), so the field markup and
- * validation messages only exist in one place.
- */
+
 @Component({
   selector: 'app-customer-form-fields',
   standalone: true,
