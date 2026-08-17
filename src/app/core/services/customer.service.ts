@@ -6,21 +6,7 @@ import { API_ENDPOINTS } from '../constants/api.constants';
 import { Customer } from '../models/customer.model';
 import { CustomerQueryParams, PagedResult } from '../models/query.model';
 
-/**
- * Thin HTTP boundary for the Customer domain.
- *
- * Why this shape:
- * - The component/store layer never sees `HttpParams` or raw API envelopes;
- *   it only deals with `CustomerQueryParams` in and `PagedResult<Customer>` out.
- * - `ReadAllCRMClients` is the only read endpoint the task allows, and it does
- *   not natively support paging/sorting query params. We still send the
- *   canonical params so the integration is forward-compatible with a
- *   paginated backend, and fall back to slicing the payload client-side when
- *   the response arrives as a flat array. This keeps the *contract* the app
- *   is built against ("server-side pagination") correct even though today's
- *   staging endpoint returns everything in one shot - swapping in a real
- *   paginated backend requires no changes outside this service.
- */
+
 @Injectable({ providedIn: 'root' })
 export class CustomerService {
   private readonly http = inject(HttpClient);
@@ -59,13 +45,7 @@ export class CustomerService {
       .pipe(map((response) => this.normalizeSavedCustomer(response, payload)));
   }
 
-  /**
-   * Normalizes whichever envelope the API returned (`Customer[]` or
-   * `{ Data, Total }`-style wrappers are both common on this backend family)
-   * and, if the server didn't already page the result, applies client-side
-   * pagination/sorting/filtering as a safety net so the UI contract never
-   * breaks regardless of which shape comes back.
-   */
+  
   private normalizeAndPaginate(
     response: unknown,
     params: CustomerQueryParams
@@ -121,12 +101,7 @@ export class CustomerService {
     return { items, total };
   }
 
-  /**
-   * Maps a search-field key (as picked in the field-selector chips, e.g.
-   * "Name" or "AccountManager") to the actual value(s) on the Customer to
-   * search against. "Name" intentionally checks both CommercialName and the
-   * legacy Name field since the API is inconsistent about which is populated.
-   */
+ 
   private resolveSearchFieldValue(customer: Customer, field: string): string {
     switch (field) {
       case 'Id':
