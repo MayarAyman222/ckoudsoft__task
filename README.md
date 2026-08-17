@@ -216,6 +216,11 @@ real lookup endpoint later touches only that file.
   matches against, wired through `CustomerStore.setSearchFields` into
   `CustomerService`'s search logic — add or remove a field from the
   checklist dropdown and the search behavior changes immediately.
+- **Export Excel**: a real client-side `.xlsx` download (via SheetJS/`xlsx`),
+  not just a toast. It re-issues one request with the list's current
+  search/filters/sort but no paging (capped at 10,000 rows so a very broad
+  filter on a 100k+ dataset can't hang the tab), so the file always matches
+  what's currently being searched/filtered for — not just the visible page.
 - **Filter panel**: clicking "Filter" expands an inline grid of one text
   input per column (ID, Code, Name, Email, Mobile, Client Type, Account
   Manager, City, Country), each wired directly to
