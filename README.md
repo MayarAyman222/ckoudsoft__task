@@ -189,6 +189,13 @@ endpoints were provided for them. "Delete" is wired at the UI/UX level
 (confirmation dialog + toast) without a destructive network call, since no
 delete endpoint was part of the mock API spec.
 
+No lookup endpoint was provided for **Company**, **Region**, **City**, or
+**Main Account** either (same situation as Country, which the task's own
+mock API also doesn't expose a lookup for) — those four dropdowns are
+populated from a small representative list in
+`core/constants/lookups.constant.ts`, isolated in one place so wiring in a
+real lookup endpoint later touches only that file.
+
 ## UI parity with the provided screens
 
 - **Add/Edit/View Customer** opens as a modal dialog (`p-dialog`), not a

@@ -21,6 +21,13 @@ import { CustomerService } from '../../../core/services/customer.service';
 import { Customer } from '../../../core/models/customer.model';
 import { FieldErrorPipe } from '../../../shared/pipes/field-error.pipe';
 import {
+  COMPANY_OPTIONS,
+  REGION_OPTIONS,
+  CITY_OPTIONS,
+  MAIN_ACCOUNT_OPTIONS,
+  COUNTRY_OPTIONS,
+} from '../../../core/constants/lookups.constant';
+import {
   CustomerForm,
   buildCustomerForm,
   toApiPayload,
@@ -66,11 +73,11 @@ export class CustomerFormComponent implements OnChanges {
   protected readonly loading = signal(false);
   protected readonly saving = signal(false);
 
-  protected readonly countryOptions = [
-    { label: 'Egypt', value: 1 },
-    { label: 'Saudi Arabia', value: 2 },
-    { label: 'United Arab Emirates', value: 3 },
-  ];
+  protected readonly countryOptions = COUNTRY_OPTIONS;
+  protected readonly companyOptions = COMPANY_OPTIONS;
+  protected readonly regionOptions = REGION_OPTIONS;
+  protected readonly cityOptions = CITY_OPTIONS;
+  protected readonly mainAccountOptions = MAIN_ACCOUNT_OPTIONS;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['customerId'] || changes['customer']) {

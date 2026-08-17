@@ -25,8 +25,10 @@
         <label for="Company">Company</label>
         <p-dropdown
           inputId="Company"
-          [options]="[]"
+          formControlName="Company"
+          [options]="companyOptions"
           placeholder="Select Company"
+          [showClear]="true"
           appendTo="body"
         ></p-dropdown>
       </div>
@@ -135,8 +137,9 @@
         <p-dropdown
           inputId="RegionId"
           formControlName="RegionId"
-          [options]="[]"
+          [options]="regionOptions"
           placeholder="Select Region"
+          [showClear]="true"
           appendTo="body"
         ></p-dropdown>
       </div>
@@ -161,7 +164,7 @@
         <p-dropdown
           inputId="CityId"
           formControlName="CityId"
-          [options]="[]"
+          [options]="cityOptions"
           placeholder="Select City"
           [showClear]="true"
           appendTo="body"
@@ -173,8 +176,9 @@
         <p-dropdown
           inputId="MainClientId"
           formControlName="MainClientId"
-          [options]="[]"
+          [options]="mainAccountOptions"
           placeholder="Select Main Account"
+          [showClear]="true"
           appendTo="body"
         ></p-dropdown>
       </div>

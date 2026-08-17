@@ -20,3 +20,38 @@ export const COUNTRY_NAME_OPTIONS: LookupOption[] = [
   { label: 'Saudi Arabia', value: 'Saudi Arabia' },
   { label: 'UAE', value: 'UAE' },
 ];
+
+// NOTE: No lookup endpoint for Region/City/Main Account was provided by the
+// task (only ReadAllCRMClients + SaveCustomerWithContactPerson were in
+// scope), so - same approach already used for COUNTRY_OPTIONS - these are a
+// small representative placeholder list, kept here in one place so swapping
+// in a real "GetRegions"/"GetCities"/"GetMainAccounts" lookup call later is
+// a one-line change with zero impact on the form/template.
+export const REGION_OPTIONS: LookupOption[] = [
+  { label: 'Cairo', value: 1 },
+  { label: 'Giza', value: 2 },
+  { label: 'Alexandria', value: 3 },
+  { label: 'Riyadh', value: 4 },
+  { label: 'Dubai', value: 5 },
+];
+
+export const CITY_OPTIONS: LookupOption[] = [
+  { label: 'Cairo', value: 1 },
+  { label: 'Nasr City', value: 2 },
+  { label: 'Giza', value: 3 },
+  { label: 'Alexandria', value: 4 },
+  { label: 'Riyadh', value: 5 },
+  { label: 'Jeddah', value: 6 },
+  { label: 'Dubai', value: 7 },
+];
+
+export const COMPANY_OPTIONS: LookupOption[] = [
+  { label: 'ERP Plus', value: 'ERP Plus' },
+  { label: 'ERP Plus Cloud', value: 'ERP Plus Cloud' },
+];
+
+export const MAIN_ACCOUNT_OPTIONS: LookupOption[] = [
+  { label: 'Anas', value: 3708 },
+  { label: 'AnasUAEon', value: 3706 },
+  { label: 'AnasJAfar', value: 3705 },
+];

@@ -1,6 +1,6 @@
 import { FormBuilder, Validators } from '@angular/forms';
 import { Customer } from '../../../core/models/customer.model';
-import { COUNTRY_OPTIONS } from '../../../core/constants/lookups.constant';
+import { COUNTRY_OPTIONS, REGION_OPTIONS, CITY_OPTIONS } from '../../../core/constants/lookups.constant';
 import {
   alphaNumericValidator,
   atLeastOneOf,
@@ -101,6 +101,8 @@ export function toFormValue(customer: Customer) {
 /** Maps the form's flat value back into the API payload shape expected by SaveCustomerWithContactPerson. */
 export function toApiPayload(formValue: ReturnType<typeof toFormValue>): Customer {
   const country = COUNTRY_OPTIONS.find((option) => option.value === formValue.CountryId)?.label ?? '';
+  const region = REGION_OPTIONS.find((option) => option.value === formValue.RegionId)?.label ?? '';
+  const city = CITY_OPTIONS.find((option) => option.value === formValue.CityId)?.label ?? '';
 
   return {
     ...formValue,
@@ -108,6 +110,8 @@ export function toApiPayload(formValue: ReturnType<typeof toFormValue>): Custome
     NameAR: formValue.LegalArabicName,
     NameEN: formValue.LegalEnglishName,
     Country: country,
+    Region: region,
+    City: city,
     xmlContactPersonGrid: [],
     Attachment: [],
     ServerIP: '',
